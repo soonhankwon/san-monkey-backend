@@ -1,10 +1,12 @@
 package com.e1i4.sanmonkeybackend.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
+@Getter
 @Entity
 public class User {
 
@@ -20,6 +22,9 @@ public class User {
 
     @Column
     private String email;
+
+    @Column
+    private String profileImageUrl;
 
     public User(String nickname, String password, String email) {
         this.nickname = nickname;
