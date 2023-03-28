@@ -1,20 +1,17 @@
 package com.e1i4.sanmonkeybackend.dto;
 
-import com.e1i4.sanmonkeybackend.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class LoginResDto {
-    private Long userId;
-    private String emailId;
+    private final Long userId;
+    private final String emailId;
     private String accessToken;
-    private String profileImageUrl;
+    private final String profileImageUrl;
 
-    public LoginResDto (User user) {
-        this.userId = user.getId();
-        this.emailId = user.getEmail();
-        this.profileImageUrl = user.getProfileImageUrl();
+    public LoginResDto(Long userId, String email, String profileImageUrl) {
+        this.userId = userId;
+        this.emailId = email;
+        this.profileImageUrl = profileImageUrl;
     }
 }
