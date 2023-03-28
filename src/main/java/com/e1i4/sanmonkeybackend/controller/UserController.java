@@ -30,7 +30,7 @@ public class UserController {
 
     @Operation(summary = "이메일계정 중복확인")
     @GetMapping("/account/check")
-    public ResponseEntity<Boolean> login(DuplicatedCheckReqDto duplicatedCheckReqDto) {
+    public ResponseEntity<Boolean> login(DuplicatedReqDto duplicatedCheckReqDto) {
         return userService.duplicatedEmailCheck(duplicatedCheckReqDto);
     }
 }

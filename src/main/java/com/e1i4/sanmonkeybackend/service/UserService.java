@@ -13,7 +13,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public ResponseEntity<?> signUp(SignupReqDto dto) {
-        if(userRepository.existsUserByEmail(dto.getEmail())) {
+        if (userRepository.existsUserByEmail(dto.getEmail())) {
             throw new IllegalArgumentException();
         } else {
             userRepository.save(new User(dto.getNickname(), dto.getPassword(), dto.getEmail()));
@@ -23,11 +23,11 @@ public class UserService {
 
     public ResponseEntity<LoginResDto> login(LoginReqDto dto) {
         User user = userRepository.findUserByEmailAndPassword(dto.getEmailId(), dto.getPassword())
-                .orElseThrow(()-> new IllegalArgumentException("이메일과 패스워드가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("이메일과 패스워드가 존재하지 않습니다."));
         return ResponseEntity.ok(User.createLoginResDto(user));
     }
 
-    public ResponseEntity<Boolean> duplicatedEmailCheck(DuplicatedCheckReqDto dto) {
+    public ResponseEntity<Boolean> duplicatedEmailCheck(DuplicatedReqDto dto) {
         return ResponseEntity.ok(userRepository.existsUserByEmail(dto.getEmailId()));
     }
 }
