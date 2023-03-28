@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @Operation(summary = "로그인")
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<LoginResDto> login(LoginReqDto loginReqDto) {
         return userService.login(loginReqDto);
     }
