@@ -29,8 +29,14 @@ public class UserController {
     }
 
     @Operation(summary = "이메일계정 중복확인")
-    @GetMapping("/account/check")
-    public ResponseEntity<Boolean> login(DuplicatedReqDto duplicatedCheckReqDto) {
-        return userService.duplicatedEmailCheck(duplicatedCheckReqDto);
+    @GetMapping("/email/check")
+    public ResponseEntity<Boolean> isDuplicatedEmail(DuplicatedEmailReqDto duplicatedEmailReqDto) {
+        return userService.duplicatedEmailCheck(duplicatedEmailReqDto);
+    }
+
+    @Operation(summary = "닉네임 중복확인")
+    @GetMapping("/nickname/check")
+    public ResponseEntity<Boolean> isDuplicatedNickname(DuplicatedNickReqDto duplicatedNickReqDto) {
+        return userService.duplicatedNicknameCheck(duplicatedNickReqDto);
     }
 }
