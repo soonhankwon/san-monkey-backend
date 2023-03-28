@@ -13,11 +13,11 @@ public class UserService {
     private final UserRepository userRepository;
 
     public ResponseEntity<?> signUp(SignupReqDto dto) {
-        if (!userRepository.existsUserByEmail(dto.getEmail())) {
+        if(userRepository.existsUserByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException();
+        } else {
             userRepository.save(new User(dto.getNickname(), dto.getPassword(), dto.getEmail()));
             return ResponseEntity.ok("Success");
-        } else {
-            throw new IllegalArgumentException();
         }
     }
 
