@@ -1,6 +1,7 @@
 package com.e1i4.sanmonkeybackend.domain;
 
-import lombok.Getter;
+import com.e1i4.sanmonkeybackend.dto.LoginReqDto;
+import com.e1i4.sanmonkeybackend.dto.LoginResDto;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -29,5 +30,9 @@ public class User {
         this.nickname = nickname;
         this.password = password;
         this.email = email;
+    }
+
+    public static LoginResDto createLoginResDto (User user) {
+         return new LoginResDto(user.id, user.email, user.profileImageUrl);
     }
 }
