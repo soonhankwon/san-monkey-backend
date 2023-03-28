@@ -24,7 +24,7 @@ public class UserService {
     public ResponseEntity<LoginResDto> login(LoginReqDto dto) {
         User user = userRepository.findUserByEmailAndPassword(dto.getEmailId(), dto.getPassword())
                 .orElseThrow(()-> new IllegalArgumentException("이메일과 패스워드가 존재하지 않습니다."));
-        return ResponseEntity.ok(new LoginResDto(user));
+        return ResponseEntity.ok(User.createLoginResDto(user));
     }
 
     public ResponseEntity<Boolean> duplicatedEmailCheck(DuplicatedCheckReqDto dto) {
