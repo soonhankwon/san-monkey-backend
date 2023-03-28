@@ -1,5 +1,6 @@
 package com.e1i4.sanmonkeybackend.dto;
 
+import com.e1i4.sanmonkeybackend.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,9 +12,9 @@ public class LoginResDto {
     private String accessToken;
     private String profileImageUrl;
 
-    public LoginResDto (Long userId, String emailId, String profileImageUrl) {
-        this.userId = userId;
-        this.emailId = emailId;
-        this.profileImageUrl = profileImageUrl;
+    public LoginResDto (User user) {
+        this.userId = user.getId();
+        this.emailId = user.getEmail();
+        this.profileImageUrl = user.getProfileImageUrl();
     }
 }

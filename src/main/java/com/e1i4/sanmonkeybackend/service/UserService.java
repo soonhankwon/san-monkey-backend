@@ -15,26 +15,19 @@ public class UserService {
     public ResponseEntity<?> signUp(SignupReqDto dto) {
         if (!userRepository.existsUserByEmail(dto.getEmail())) {
             userRepository.save(new User(dto.getNickname(), dto.getPassword(), dto.getEmail()));
-            return ResponseEntity.status(200).body("Success");
+            return ResponseEntity.ok("Success");
         } else {
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
     }
 
     public ResponseEntity<LoginResDto> login(LoginReqDto dto) {
-        if (!isExistsUserByPasswordAndEmail(dto)) {
-            throw new IllegalArgumentException("이메일과 패스워드가 존재하지 않습니다.");
-        } else {
-            User user = userRepository.findUserByEmail(dto.getEmailId());
-            return ResponseEntity.ok(new LoginResDto(user.getId(), user.getEmail(), user.getProfileImageUrl()));
-        }
+        User user = userRepository.findUserByEmailAndPassword(dto.getEmailId(), dto.getPassword())
+                .orElseThrow(()-> new IllegalArgumentException("이메일과 패스워드가 존재하지 않습니다."));
+        return ResponseEntity.ok(new LoginResDto(user));
     }
 
     public ResponseEntity<Boolean> duplicatedEmailCheck(DuplicatedCheckReqDto dto) {
         return ResponseEntity.ok(userRepository.existsUserByEmail(dto.getEmailId()));
-    }
-
-    private boolean isExistsUserByPasswordAndEmail(LoginReqDto dto) {
-        return userRepository.existsUserByPasswordAndEmail(dto.getPassword(), dto.getEmailId());
     }
 }
