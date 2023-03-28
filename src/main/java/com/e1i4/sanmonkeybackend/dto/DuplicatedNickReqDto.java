@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DuplicatedReqDto {
-    private String emailId;
+public class DuplicatedNickReqDto {
+    private String nickname;
 }
