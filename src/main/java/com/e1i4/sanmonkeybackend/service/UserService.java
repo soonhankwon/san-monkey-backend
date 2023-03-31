@@ -27,11 +27,11 @@ public class UserService {
         return ResponseEntity.ok(User.createLoginResDto(user));
     }
 
-    public ResponseEntity<Boolean> duplicatedEmailCheck(DuplicatedEmailReqDto dto) {
-        return ResponseEntity.ok(userRepository.existsUserByEmail(dto.getEmailId()));
+    public ResponseEntity<DuplicatedResDto> duplicatedEmailCheck(DuplicatedEmailReqDto dto) {
+        return ResponseEntity.ok(new DuplicatedResDto(userRepository.existsUserByEmail(dto.getEmailId())));
     }
 
-    public ResponseEntity<Boolean> duplicatedNicknameCheck(DuplicatedNickReqDto dto) {
-        return ResponseEntity.ok(userRepository.existsUserByNickname(dto.getNickname()));
+    public ResponseEntity<DuplicatedResDto> duplicatedNicknameCheck(DuplicatedNickReqDto dto) {
+        return ResponseEntity.ok(new DuplicatedResDto(userRepository.existsUserByNickname(dto.getNickname())));
     }
 }
