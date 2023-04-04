@@ -1,6 +1,5 @@
 package com.e1i4.sanmonkeybackend.domain;
 
-import com.e1i4.sanmonkeybackend.dto.LoginReqDto;
 import com.e1i4.sanmonkeybackend.dto.LoginResDto;
 import lombok.NoArgsConstructor;
 
