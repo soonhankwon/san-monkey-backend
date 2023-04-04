@@ -65,7 +65,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker rm -f $(docker ps -qa)
+            sudo docker rm -f $(sudo docker ps -qa)
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/san-monkey
