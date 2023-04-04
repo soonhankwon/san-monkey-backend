@@ -80,3 +80,4 @@ MESSAGE="어플리케이션 배포가 완료되었습니다.\n배포 일시: ${T
 
 # 슬랙으로 메시지 전송
 curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" ${SLACK_WEBHOOK_URL}
+
