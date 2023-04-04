@@ -1,5 +1,6 @@
 package com.e1i4.sanmonkeybackend.domain;
 
+import com.e1i4.sanmonkeybackend.exception.RequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +29,6 @@ public class UserTest {
 
         assertThatThrownBy(() -> {
             new User(nickname, password, email);
-        }).isInstanceOf(IllegalArgumentException.class);
+        }).isInstanceOf(RequestException.class);
     }
 }

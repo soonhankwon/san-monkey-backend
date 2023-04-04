@@ -1,18 +1,24 @@
 package com.e1i4.sanmonkeybackend.domain;
 
 import com.e1i4.sanmonkeybackend.dto.LoginResDto;
+import com.e1i4.sanmonkeybackend.exception.ErrorCode;
+import com.e1i4.sanmonkeybackend.exception.RequestException;
+import com.e1i4.sanmonkeybackend.utils.BaseTimeEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
+    @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column
     private String nickname;
@@ -26,17 +32,24 @@ public class User {
     @Column
     private String profileImageUrl;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private final List<UserStamp> userStamps = new ArrayList<>();
+
     public User(String nickname, String password, String email) {
-        if(!isEmailWithAtAndDot(email)) {
-            throw new IllegalArgumentException("이메일은 @와 .이 포함되어야 합니다.");
+        if (!isEmailWithAtAndDot(email)) {
+            throw new RequestException(ErrorCode.EMAIL_WITH_INVALID_EXPRESSION);
         }
         this.nickname = nickname;
         this.password = password;
         this.email = email;
     }
 
-    public static LoginResDto createLoginResDto (User user) {
-         return new LoginResDto(user.id, user.email, user.profileImageUrl);
+    public static LoginResDto createLoginResDto(User user) {
+        return new LoginResDto(user.userId, user.email, user.profileImageUrl);
+    }
+
+    public void updateStamp(UserStamp userStamp) {
+        this.userStamps.add(userStamp);
     }
 
     private boolean isEmailWithAtAndDot(String email) {
@@ -48,11 +61,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(nickname, user.nickname) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(profileImageUrl, user.profileImageUrl);
+        return Objects.equals(userId, user.userId) && Objects.equals(nickname, user.nickname) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(profileImageUrl, user.profileImageUrl) && Objects.equals(userStamps, user.userStamps);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, password, email, profileImageUrl);
+        return Objects.hash(userId, nickname, password, email, profileImageUrl, userStamps);
     }
 }
