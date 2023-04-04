@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest #ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       # 기본 체크아웃
       - name: Checkout
@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-gradle-
             
       # main 설정 파일 생성 및 write
-      - name: Set .yml for main
+      - name: Set .properties for main
         run: |
           # main 설정 파일 디렉토리로 이동
           cd ./src/main/resources
