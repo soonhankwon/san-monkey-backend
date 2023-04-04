@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Entity
 public class UserStamp extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_stamp_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -19,4 +20,10 @@ public class UserStamp extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stamp_id")
     private Stamp stamp;
+
+    public UserStamp(User user, Stamp stamp) {
+        super();
+        this.user = user;
+        this.stamp = stamp;
+    }
 }

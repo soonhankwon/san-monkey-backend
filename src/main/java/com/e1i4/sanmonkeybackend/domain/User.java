@@ -48,6 +48,10 @@ public class User extends BaseTimeEntity {
         return new LoginResDto(user.userId, user.email, user.profileImageUrl);
     }
 
+    public void updateStamp(UserStamp userStamp) {
+        this.userStamps.add(userStamp);
+    }
+
     private boolean isEmailWithAtAndDot(String email) {
         return email.contains("@") && email.contains(".");
     }
