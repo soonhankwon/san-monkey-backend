@@ -26,4 +26,8 @@ public class UserStamp extends BaseTimeEntity {
         this.user = user;
         this.stamp = stamp;
     }
+
+    public Stamp getStamp() {
+        return stamp;
+    }
 }
