@@ -37,6 +37,7 @@ public class StampService {
 
         UserStampResDto userStampResDto = new UserStampResDto(userStampList.stream()
                 .map(UserStamp::getStamp)
+                .map(Stamp::getStampImageUrl)
                 .collect(Collectors.toList()));
 
         return ResponseEntity.ok(userStampResDto);
