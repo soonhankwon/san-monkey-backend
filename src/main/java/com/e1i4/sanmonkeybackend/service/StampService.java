@@ -3,10 +3,7 @@ package com.e1i4.sanmonkeybackend.service;
 import com.e1i4.sanmonkeybackend.domain.Stamp;
 import com.e1i4.sanmonkeybackend.domain.User;
 import com.e1i4.sanmonkeybackend.domain.UserStamp;
-import com.e1i4.sanmonkeybackend.dto.GiveStampToUserReqDto;
-import com.e1i4.sanmonkeybackend.dto.StampReqDto;
-import com.e1i4.sanmonkeybackend.dto.UserStampReqDto;
-import com.e1i4.sanmonkeybackend.dto.UserStampResDto;
+import com.e1i4.sanmonkeybackend.dto.*;
 import com.e1i4.sanmonkeybackend.repository.StampRepository;
 import com.e1i4.sanmonkeybackend.repository.UserRepository;
 import com.e1i4.sanmonkeybackend.repository.UserStampRepository;
@@ -16,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,17 +27,19 @@ public class StampService {
         stampRepository.save(new Stamp(dto.getStampImageUrl()));
     }
 
-    public ResponseEntity<List<UserStampResDto>> getUserStamp(UserStampReqDto dto) {
+    public ResponseEntity<UserStampResDto> getUserStamp(UserStampReqDto dto) {
         User user = userRepository.findUserByEmail(dto.getEmail())
                 .orElseThrow(IllegalArgumentException::new);
         List<UserStamp> userStampList = userStampRepository.findAllByUser(user);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        List<UserStampResDto> userStampResDtoList = userStampList.stream()
-                .map(userStamp -> new UserStampResDto(userStamp.getStamp().getStampImageUrl(), userStamp.getCreatedAt().format(formatter)))
-                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(userStampResDtoList);
+        UserStampResDto userStampResDto = new UserStampResDto(
+                userStampList.stream()
+                        .map(userStamp -> new UserStampDto(userStamp.getStamp().getStampImageUrl(), userStamp.getCreatedAt().format(formatter)))
+                        .collect(Collectors.toList()));
+
+        return ResponseEntity.ok(userStampResDto);
     }
 
     @Transactional

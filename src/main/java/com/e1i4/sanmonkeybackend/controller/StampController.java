@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "스탬프 관련 기능 API")
@@ -29,11 +27,11 @@ public class StampController {
 
     @Operation(summary = "유저 스탬프 조회")
     @GetMapping("/user/stamp")
-    public ResponseEntity<List<UserStampResDto>> getStamp(UserStampReqDto userStampReqDto) {
+    public ResponseEntity<UserStampResDto> getUserStamp(UserStampReqDto userStampReqDto) {
         return stampService.getUserStamp(userStampReqDto);
     }
 
-    @Operation(summary = "유저 스템프 수여")
+    @Operation(summary = "유저 스탬프 수여")
     @PostMapping("/user/stamp/give")
     public void giveStampToUser(GiveStampToUserReqDto giveStampToUserReqDto) {
         stampService.giveStampToUser(giveStampToUserReqDto);
