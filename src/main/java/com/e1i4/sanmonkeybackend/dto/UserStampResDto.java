@@ -9,4 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class UserStampResDto {
     private List<String> userStampList;
+    private List<String> createdAtList;
 }

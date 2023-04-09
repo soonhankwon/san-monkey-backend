@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,10 +37,14 @@ public class StampService {
                 .orElseThrow(IllegalArgumentException::new);
         List<UserStamp> userStampList = userStampRepository.findAllByUser(user);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         UserStampResDto userStampResDto = new UserStampResDto(userStampList.stream()
-                .map(UserStamp::getStamp)
-                .map(Stamp::getStampImageUrl)
-                .collect(Collectors.toList()));
+                .map(userStamp -> userStamp.getStamp().getStampImageUrl())
+                .collect(Collectors.toList()),
+                userStampList.stream()
+                        .map(UserStamp::getCreatedAt)
+                        .map(dateTime -> dateTime.format(formatter))
+                        .collect(Collectors.toList()));
 
         return ResponseEntity.ok(userStampResDto);
     }
