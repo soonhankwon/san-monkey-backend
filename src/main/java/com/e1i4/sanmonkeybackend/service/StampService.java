@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,21 +33,17 @@ public class StampService {
         stampRepository.save(new Stamp(dto.getStampImageUrl()));
     }
 
-    public ResponseEntity<UserStampResDto> getUserStamp(UserStampReqDto dto) {
+    public ResponseEntity<List<UserStampResDto>> getUserStamp(UserStampReqDto dto) {
         User user = userRepository.findUserByEmail(dto.getEmail())
                 .orElseThrow(IllegalArgumentException::new);
         List<UserStamp> userStampList = userStampRepository.findAllByUser(user);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        UserStampResDto userStampResDto = new UserStampResDto(userStampList.stream()
-                .map(userStamp -> userStamp.getStamp().getStampImageUrl())
-                .collect(Collectors.toList()),
-                userStampList.stream()
-                        .map(UserStamp::getCreatedAt)
-                        .map(dateTime -> dateTime.format(formatter))
-                        .collect(Collectors.toList()));
+        List<UserStampResDto> userStampResDtoList = userStampList.stream()
+                .map(userStamp -> new UserStampResDto(userStamp.getStamp().getStampImageUrl(), userStamp.getCreatedAt().format(formatter)))
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(userStampResDto);
+        return ResponseEntity.ok(userStampResDtoList);
     }
 
     @Transactional
