@@ -25,19 +25,19 @@ public class UserController {
 
     @Operation(summary = "로그인")
     @GetMapping("/login")
-    public ResponseEntity<LoginResDto> login(LoginReqDto loginReqDto) {
+    public ResponseEntity<LoginResDto> login(@RequestBody LoginReqDto loginReqDto) {
         return userService.login(loginReqDto);
     }
 
     @Operation(summary = "이메일계정 중복확인")
     @GetMapping("/email/check")
-    public ResponseEntity<DuplicatedResDto> isDuplicatedEmail(DuplicatedEmailReqDto duplicatedEmailReqDto) {
+    public ResponseEntity<DuplicatedResDto> isDuplicatedEmail(@RequestBody DuplicatedEmailReqDto duplicatedEmailReqDto) {
         return userService.duplicatedEmailCheck(duplicatedEmailReqDto);
     }
 
     @Operation(summary = "닉네임 중복확인")
     @GetMapping("/nickname/check")
-    public ResponseEntity<DuplicatedResDto> isDuplicatedNickname(DuplicatedNickReqDto duplicatedNickReqDto) {
+    public ResponseEntity<DuplicatedResDto> isDuplicatedNickname(@RequestBody DuplicatedNickReqDto duplicatedNickReqDto) {
         return userService.duplicatedNicknameCheck(duplicatedNickReqDto);
     }
 }

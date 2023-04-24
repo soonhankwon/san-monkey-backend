@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -21,19 +22,19 @@ public class StampController {
 
     @Operation(summary = "DB 스탬프 저장")
     @PostMapping("/db/stamp")
-    public void createStamp(StampReqDto stampReqDto) {
+    public void createStamp(@RequestBody StampReqDto stampReqDto) {
         stampService.addStampToDB(stampReqDto);
     }
 
     @Operation(summary = "유저 스탬프 조회")
     @GetMapping("/user/stamp")
-    public ResponseEntity<UserStampResDto> getUserStamp(UserStampReqDto userStampReqDto) {
+    public ResponseEntity<UserStampResDto> getUserStamp(@RequestBody UserStampReqDto userStampReqDto) {
         return stampService.getUserStamp(userStampReqDto);
     }
 
     @Operation(summary = "유저 스탬프 수여")
     @PostMapping("/user/stamp/give")
-    public void giveStampToUser(GiveStampToUserReqDto giveStampToUserReqDto) {
+    public void giveStampToUser(@RequestBody GiveStampToUserReqDto giveStampToUserReqDto) {
         stampService.giveStampToUser(giveStampToUserReqDto);
     }
 }
