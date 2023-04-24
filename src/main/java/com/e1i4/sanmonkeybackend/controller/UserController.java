@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class UserController {
 
     @Operation(summary = "회원 가입")
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(SignupReqDto signupReqDto) {
+    public ResponseEntity<?> signup(@RequestBody SignupReqDto signupReqDto) {
         return userService.signUp(signupReqDto);
     }
 
