@@ -46,4 +46,10 @@ public class UserService {
     public ResponseEntity<DuplicatedResDto> duplicatedNicknameCheck(DuplicatedNickReqDto dto) {
         return ResponseEntity.ok(new DuplicatedResDto(userRepository.existsUserByNickname(dto.getNickname())));
     }
+
+    public ResponseEntity<FindUserIdResDto> findUserId(FindUserIdReqDto dto) {
+        User user = userRepository.findUserByEmail(dto.getEmail())
+                .orElseThrow(() -> new RequestException(ErrorCode.USERID_NOT_FOUND));
+        return ResponseEntity.ok(user.createFindUserIdResDto());
+    }
 }
