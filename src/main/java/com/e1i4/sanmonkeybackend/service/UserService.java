@@ -16,12 +16,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<?> signUp(SignupReqDto dto) {
+    public ResponseEntity<GlobalResDto> signUp(SignupReqDto dto) {
         if (userRepository.existsUserByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException();
+            throw new RequestException(ErrorCode.EXISTS_USER_BY_EMAIL);
         } else {
             userRepository.save(new User(dto.getUserId(), dto.getNickname(), dto.getPassword(), dto.getEmail()));
-            return ResponseEntity.ok("Success");
+            return ResponseEntity.ok(new GlobalResDto("Success"));
         }
     }
 
@@ -31,11 +31,11 @@ public class UserService {
         return ResponseEntity.ok(User.createLoginResDto(user));
     }
 
-    public ResponseEntity<IdAvailableResDto> availableIdCheck(IdAvailableReqDto dto) {
+    public ResponseEntity<GlobalResDto> availableIdCheck(IdAvailableReqDto dto) {
         if(userRepository.existsUserByUserId(dto.getUserId())) {
-            return ResponseEntity.ok(new IdAvailableResDto("사용중인 아이디입니다."));
+            return ResponseEntity.ok(new GlobalResDto("사용중인 아이디입니다."));
         } else {
-            return ResponseEntity.ok(new IdAvailableResDto("사용가능한 아이디입니다."));
+            return ResponseEntity.ok(new GlobalResDto("사용가능한 아이디입니다."));
         }
     }
 
