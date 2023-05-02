@@ -46,4 +46,10 @@ public class UserController {
     public ResponseEntity<DuplicatedResDto> isDuplicatedNickname(DuplicatedNickReqDto duplicatedNickReqDto) {
         return userService.duplicatedNicknameCheck(duplicatedNickReqDto);
     }
+
+    @Operation(summary = "아이디 찾기")
+    @GetMapping("/id/find")
+    public ResponseEntity<FindUserIdResDto> findUserId(FindUserIdReqDto findUserIdReqDto) {
+        return userService.findUserId(findUserIdReqDto);
+    }
 }
