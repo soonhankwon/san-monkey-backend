@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @Operation(summary = "유저 비밀번호 변경")
-    @GetMapping("/id/password/update")
+    @GetMapping("/password/update")
     public ResponseEntity<GlobalResDto> updateUserPassword(UpdateUserPasswordReqDto updateUserPasswordReqDto) {
         return userService.updateUserPassword(updateUserPasswordReqDto);
     }
