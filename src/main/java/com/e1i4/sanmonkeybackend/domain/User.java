@@ -1,5 +1,6 @@
 package com.e1i4.sanmonkeybackend.domain;
 
+import com.e1i4.sanmonkeybackend.dto.FindUserIdResDto;
 import com.e1i4.sanmonkeybackend.dto.LoginResDto;
 import com.e1i4.sanmonkeybackend.exception.ErrorCode;
 import com.e1i4.sanmonkeybackend.exception.RequestException;
@@ -50,6 +51,10 @@ public class User extends BaseTimeEntity {
 
     public static LoginResDto createLoginResDto(User user) {
         return new LoginResDto(user.id, user.userId, user.profileImageUrl, user.email, user.nickname);
+    }
+
+    public FindUserIdResDto createFindUserIdResDto() {
+        return new FindUserIdResDto(userId, super.getCreatedAt());
     }
 
     public void updateStamp(UserStamp userStamp) {
