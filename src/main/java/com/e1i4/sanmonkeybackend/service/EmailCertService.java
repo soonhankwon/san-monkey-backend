@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -26,6 +27,7 @@ public class EmailCertService {
     @Value("${spring.mail.username}")
     private String id;
 
+    @Transactional
     public ResponseEntity<GlobalResDto> sendSimpleMessage(String to) throws Exception {
         String key = createKey();
         MimeMessage message = createMessage(to, key);
