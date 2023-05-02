@@ -36,7 +36,7 @@ public class EmailCertService {
             throw new IllegalArgumentException();
         }
         log.info("인증코드 : " + key);
-        return ResponseEntity.ok(new GlobalResDto(key));
+        return ResponseEntity.ok(new GlobalResDto("인증메일 발송이 완료되었습니다."));
     }
 
     private MimeMessage createMessage(String to, String key) throws MessagingException, UnsupportedEncodingException {
