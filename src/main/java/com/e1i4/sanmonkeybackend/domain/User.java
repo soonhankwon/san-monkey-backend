@@ -16,9 +16,12 @@ import java.util.Objects;
 public class User extends BaseTimeEntity {
 
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
+
+    @Column
+    private String userId;
 
     @Column
     private String nickname;
@@ -35,17 +38,18 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<UserStamp> userStamps = new ArrayList<>();
 
-    public User(String nickname, String password, String email) {
+    public User(String userId, String nickname, String password, String email) {
         if (!isEmailWithAtAndDot(email)) {
             throw new RequestException(ErrorCode.EMAIL_WITH_INVALID_EXPRESSION);
         }
+        this.userId = userId;
         this.nickname = nickname;
         this.password = password;
         this.email = email;
     }
 
     public static LoginResDto createLoginResDto(User user) {
-        return new LoginResDto(user.userId, user.email, user.profileImageUrl);
+        return new LoginResDto(user.id, user.userId, user.profileImageUrl, user.email, user.nickname);
     }
 
     public void updateStamp(UserStamp userStamp) {
