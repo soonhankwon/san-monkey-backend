@@ -52,4 +52,10 @@ public class UserController {
     public ResponseEntity<FindUserIdResDto> findUserId(FindUserIdReqDto findUserIdReqDto) {
         return userService.findUserId(findUserIdReqDto);
     }
+
+    @Operation(summary = "유저 비밀번호 변경")
+    @GetMapping("/id/password/update")
+    public ResponseEntity<GlobalResDto> updateUserPassword(UpdateUserPasswordReqDto updateUserPasswordReqDto) {
+        return userService.updateUserPassword(updateUserPasswordReqDto);
+    }
 }
