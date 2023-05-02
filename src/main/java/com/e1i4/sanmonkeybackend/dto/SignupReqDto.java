@@ -6,7 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class SignupReqDto {
-    private String nickname;
+    private String userId;
     private String password;
+    private String nickname;
     private String email;
 }
