@@ -25,12 +25,14 @@ public class UserService {
         }
     }
 
+    @Transactional
     public ResponseEntity<LoginResDto> login(LoginReqDto dto) {
         User user = userRepository.findUserByEmailAndPassword(dto.getEmailId(), dto.getPassword())
                 .orElseThrow(() -> new RequestException(ErrorCode.LOGIN_INVALID_VALUE));
         return ResponseEntity.ok(User.createLoginResDto(user));
     }
 
+    @Transactional
     public ResponseEntity<GlobalResDto> availableIdCheck(IdAvailableReqDto dto) {
         if(userRepository.existsUserByUserId(dto.getUserId())) {
             return ResponseEntity.ok(new GlobalResDto("사용중인 아이디입니다."));
@@ -39,17 +41,28 @@ public class UserService {
         }
     }
 
+    @Transactional
     public ResponseEntity<DuplicatedResDto> duplicatedEmailCheck(DuplicatedEmailReqDto dto) {
         return ResponseEntity.ok(new DuplicatedResDto(userRepository.existsUserByEmail(dto.getEmailId())));
     }
 
+    @Transactional
     public ResponseEntity<DuplicatedResDto> duplicatedNicknameCheck(DuplicatedNickReqDto dto) {
         return ResponseEntity.ok(new DuplicatedResDto(userRepository.existsUserByNickname(dto.getNickname())));
     }
 
+    @Transactional
     public ResponseEntity<FindUserIdResDto> findUserId(FindUserIdReqDto dto) {
         User user = userRepository.findUserByEmail(dto.getEmail())
                 .orElseThrow(() -> new RequestException(ErrorCode.USERID_NOT_FOUND));
         return ResponseEntity.ok(user.createFindUserIdResDto());
+    }
+
+    @Transactional
+    public ResponseEntity<GlobalResDto> updateUserPassword(UpdateUserPasswordReqDto dto) {
+        User user = userRepository.findUserByUserId(dto.getUserId())
+                .orElseThrow(() -> new RequestException(ErrorCode.USERID_NOT_FOUND));
+        user.updatePassword(dto);
+        return ResponseEntity.ok(new GlobalResDto("비밀번호 변경 완료"));
     }
 }
