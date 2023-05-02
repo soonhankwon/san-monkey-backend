@@ -19,7 +19,7 @@ public class UserController {
 
     @Operation(summary = "회원 가입")
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupReqDto signupReqDto) {
+    public ResponseEntity<GlobalResDto> signup(@RequestBody SignupReqDto signupReqDto) {
         return userService.signUp(signupReqDto);
     }
 
@@ -31,7 +31,7 @@ public class UserController {
 
     @Operation(summary = "아이디 사용 가능 여부 체크")
     @GetMapping("/id/check")
-    public ResponseEntity<IdAvailableResDto> availableIdCheck(IdAvailableReqDto idAvailableReqDto) {
+    public ResponseEntity<GlobalResDto> availableIdCheck(IdAvailableReqDto idAvailableReqDto) {
         return userService.availableIdCheck(idAvailableReqDto);
     }
 
