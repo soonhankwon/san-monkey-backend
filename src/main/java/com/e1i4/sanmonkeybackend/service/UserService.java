@@ -33,7 +33,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<GlobalResDto> availableIdCheck(IdAvailableReqDto dto) {
+    public ResponseEntity<GlobalResDto> availableIdCheck(AvailableIdReqDto dto) {
         if(userRepository.existsUserByUserId(dto.getUserId())) {
             return ResponseEntity.ok(new GlobalResDto("사용중인 아이디입니다."));
         } else {

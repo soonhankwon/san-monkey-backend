@@ -31,8 +31,8 @@ public class UserController {
 
     @Operation(summary = "아이디 사용 가능 여부 체크")
     @GetMapping("/id/check")
-    public ResponseEntity<GlobalResDto> availableIdCheck(IdAvailableReqDto idAvailableReqDto) {
-        return userService.availableIdCheck(idAvailableReqDto);
+    public ResponseEntity<GlobalResDto> availableIdCheck(AvailableIdReqDto availableIdReqDto) {
+        return userService.availableIdCheck(availableIdReqDto);
     }
 
     @Operation(summary = "이메일계정 중복확인")

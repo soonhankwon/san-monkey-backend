@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class IdAvailableReqDto {
+public class AvailableIdReqDto {
     private String userId;
 }
