@@ -1,6 +1,6 @@
 package com.e1i4.sanmonkeybackend.domain;
 
-import com.e1i4.sanmonkeybackend.exception.RequestException;
+import com.e1i4.sanmonkeybackend.exception.ApiException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +31,6 @@ public class UserTest {
 
         assertThatThrownBy(() -> {
             new User("soonId", nickname, password, email);
-        }).isInstanceOf(RequestException.class);
+        }).isInstanceOf(ApiException.class);
     }
 }

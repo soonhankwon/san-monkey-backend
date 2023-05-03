@@ -2,8 +2,8 @@ package com.e1i4.sanmonkeybackend.service;
 
 import com.e1i4.sanmonkeybackend.domain.User;
 import com.e1i4.sanmonkeybackend.dto.*;
+import com.e1i4.sanmonkeybackend.exception.ApiException;
 import com.e1i4.sanmonkeybackend.exception.ErrorCode;
-import com.e1i4.sanmonkeybackend.exception.RequestException;
 import com.e1i4.sanmonkeybackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class UserService {
     @Transactional
     public ResponseEntity<GlobalResDto> signUp(SignupReqDto dto) {
         if (userRepository.existsUserByEmail(dto.getEmail())) {
-            throw new RequestException(ErrorCode.EXISTS_USER_BY_EMAIL);
+            throw new ApiException(ErrorCode.EXISTS_USER_BY_EMAIL);
         } else {
             userRepository.save(new User(dto.getUserId(), dto.getNickname(), dto.getPassword(), dto.getEmail()));
             return ResponseEntity.ok(new GlobalResDto("Success"));
@@ -28,7 +28,7 @@ public class UserService {
     @Transactional
     public ResponseEntity<LoginResDto> login(LoginReqDto dto) {
         User user = userRepository.findUserByEmailAndPassword(dto.getEmailId(), dto.getPassword())
-                .orElseThrow(() -> new RequestException(ErrorCode.LOGIN_INVALID_VALUE));
+                .orElseThrow(() -> new ApiException(ErrorCode.LOGIN_INVALID_VALUE));
         return ResponseEntity.ok(User.createLoginResDto(user));
     }
 
@@ -54,14 +54,14 @@ public class UserService {
     @Transactional
     public ResponseEntity<FindUserIdResDto> findUserId(FindUserIdReqDto dto) {
         User user = userRepository.findUserByEmail(dto.getEmail())
-                .orElseThrow(() -> new RequestException(ErrorCode.USERID_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorCode.USERID_NOT_FOUND));
         return ResponseEntity.ok(user.createFindUserIdResDto());
     }
 
     @Transactional
     public ResponseEntity<GlobalResDto> updateUserPassword(UpdateUserPasswordReqDto dto) {
         User user = userRepository.findUserByUserId(dto.getUserId())
-                .orElseThrow(() -> new RequestException(ErrorCode.USERID_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorCode.USERID_NOT_FOUND));
         user.updatePassword(dto);
         return ResponseEntity.ok(new GlobalResDto("비밀번호 변경 완료"));
     }

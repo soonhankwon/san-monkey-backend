@@ -4,7 +4,7 @@ import com.e1i4.sanmonkeybackend.dto.FindUserIdResDto;
 import com.e1i4.sanmonkeybackend.dto.LoginResDto;
 import com.e1i4.sanmonkeybackend.dto.UpdateUserPasswordReqDto;
 import com.e1i4.sanmonkeybackend.exception.ErrorCode;
-import com.e1i4.sanmonkeybackend.exception.RequestException;
+import com.e1i4.sanmonkeybackend.exception.ApiException;
 import com.e1i4.sanmonkeybackend.utils.BaseTimeEntity;
 import lombok.NoArgsConstructor;
 
@@ -42,7 +42,7 @@ public class User extends BaseTimeEntity {
 
     public User(String userId, String nickname, String password, String email) {
         if (!isEmailWithAtAndDot(email)) {
-            throw new RequestException(ErrorCode.EMAIL_WITH_INVALID_EXPRESSION);
+            throw new ApiException(ErrorCode.EMAIL_WITH_INVALID_EXPRESSION);
         }
         this.userId = userId;
         this.nickname = nickname;
@@ -60,7 +60,7 @@ public class User extends BaseTimeEntity {
 
     public void updatePassword(UpdateUserPasswordReqDto dto) {
         if(this.password.equals(dto.getPassword())) {
-            throw new RequestException(ErrorCode.SAME_PASSWORD);
+            throw new ApiException(ErrorCode.SAME_PASSWORD);
         }
         this.password = dto.getPassword();
     }
