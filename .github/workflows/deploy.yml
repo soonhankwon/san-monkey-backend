@@ -57,41 +57,30 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/san-monkey .
           docker push ${{ secrets.DOCKER_USERNAME }}/san-monkey
 
-    # EC2 서버에서 이전에 실행된 Docker 컨테이너 및 이미지 삭제
-      - name: EC2 Docker Cleanup
+      # 서버에서 Docker 백그라운드 클린업 & 이미지 실행
+      - name: EC2 Docker Cleanup & Run
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # 1분 이전 컨테이너 삭제
             sudo docker container prune --force --filter "until=1m"
-            # 1분 이전 이미지 삭제
-            sudo docker image prune --force --filter "until=1m"
-
-      # 서버에서 Docker 이미지 실행
-      - name: EC2 Docker Run
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_KEY }}
-          script: |
+            sudo docker image prune -a --filter "until=1m"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
 
-  Slack-Notification:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2.0.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          status: ${{ job.status }}
-          fields: repo,commit,message,author
-          mention: here
-          if_mention: failure,cancelled
+#   Slack-Notification:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Slack Notification
+#         uses: rtCamp/action-slack-notify@v2.0.0
+#         env:
+#           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+#         with:
+#           status: ${{ job.status }}
+#           fields: repo,commit,message,author
+#           mention: here
+#           if_mention: failure,cancelled
