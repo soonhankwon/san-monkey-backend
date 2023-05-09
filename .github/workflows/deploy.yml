@@ -57,16 +57,16 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/san-monkey .
           docker push ${{ secrets.DOCKER_USERNAME }}/san-monkey
 
-      # 서버에서 Docker 백그라운드 클린업 & 이미지 실행
-      - name: EC2 Docker Cleanup & Run
+      # 서버에서 Docker 이미지 실행
+      - name: EC2 Docker Run
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker system prune
-            sudo docker rmi -a --filter "until=1m"
+            sudo docker rm -f $(sudo docker ps -qa)
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
