@@ -65,8 +65,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker container prune --force --filter "until=1m"
-            sudo docker image prune -a --filter "until=1m"
+            sudo docker system prune
+            sudo docker rmi -a --filter "until=1m"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/san-monkey
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
